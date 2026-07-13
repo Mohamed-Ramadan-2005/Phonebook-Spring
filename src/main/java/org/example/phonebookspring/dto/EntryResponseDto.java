@@ -3,9 +3,11 @@ package org.example.phonebookspring.dto;
 import jakarta.validation.constraints.NotBlank;
 
 public class EntryResponseDto {
+    @NotBlank
     private String name;
     @NotBlank
     private String phoneNumber;
+    @NotBlank
     private String city;
 
     public String getName() {

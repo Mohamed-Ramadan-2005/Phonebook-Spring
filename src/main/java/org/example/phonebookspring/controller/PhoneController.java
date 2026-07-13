@@ -41,6 +41,10 @@ public class PhoneController {
     }
     @DeleteMapping("/{phoneNumber}")
     public ResponseEntity<Void> deleteEntry(@PathVariable String phoneNumber) {
+        Entry entry = phoneService.get(phoneNumber);
+        if(entry==null){
+            return  ResponseEntity.notFound().build();
+        }
         phoneService.deleteEntry(phoneNumber);
         return ResponseEntity.noContent().build();
     }
