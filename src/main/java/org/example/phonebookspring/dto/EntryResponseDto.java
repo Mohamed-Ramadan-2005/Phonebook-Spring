@@ -1,13 +1,17 @@
 package org.example.phonebookspring.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.Length;
 
 public class EntryResponseDto {
     @NotBlank
+    @Length(min = 5, max = 20)
     private String name;
     @NotBlank
+    @Length(min = 7, max = 20)
     private String phoneNumber;
     @NotBlank
+    @Length(min = 3, max = 15)
     private String city;
 
     public String getName() {
