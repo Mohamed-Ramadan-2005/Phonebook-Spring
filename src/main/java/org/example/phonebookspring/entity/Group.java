@@ -40,12 +40,10 @@ public class Group {
         this.id = id;
     }
     public void addEntry(Entry entry) {
-        entries.add(entry);
-        entry.getGroups().add(this);
+        entry.addGroup(this);
     }
     public void removeEntry(Entry entry) {
-        entries.remove(entry);
-        entry.getGroups().remove(this);
+        entry.removeGroup(this);
     }
 
 }

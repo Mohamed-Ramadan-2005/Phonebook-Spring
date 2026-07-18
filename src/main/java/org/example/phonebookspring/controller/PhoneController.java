@@ -43,6 +43,24 @@ public class PhoneController {
         return ResponseEntity.status(HttpStatus.CREATED).body(entryMapper.toDto(savedEntry));
     }
 
+    @PutMapping("/{phoneNumber}/groups/{groupName}")
+    public ResponseEntity<EntryDto> linkGroup(@PathVariable String phoneNumber, @PathVariable String groupName) {
+        Entry linkedEntry = phoneService.linkEntryToGroup(phoneNumber, groupName);
+        if (linkedEntry == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(entryMapper.toDto(linkedEntry));
+    }
+
+    @DeleteMapping("/{phoneNumber}/groups/{groupName}")
+    public ResponseEntity<EntryDto> unlinkGroup(@PathVariable String phoneNumber, @PathVariable String groupName) {
+        Entry unlinkedEntry = phoneService.unlinkEntryFromGroup(phoneNumber, groupName);
+        if (unlinkedEntry == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(entryMapper.toDto(unlinkedEntry));
+    }
+
     @DeleteMapping("/{phoneNumber}")
     public ResponseEntity<Void> deleteEntry(@PathVariable String phoneNumber) {
         Entry entry = phoneService.get(phoneNumber);

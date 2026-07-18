@@ -1,11 +1,14 @@
 package org.example.phonebookspring.service;
 
+import org.example.phonebookspring.entity.Entry;
 import org.example.phonebookspring.entity.Group;
 import org.example.phonebookspring.repository.GroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 @Service
 public class GroupServiceImpl implements  GroupService {
@@ -18,8 +21,16 @@ public class GroupServiceImpl implements  GroupService {
     }
 
     @Override
+    @Transactional
     public void deleteGroup(String GroupName) {
-        groupRepository.deleteGroupByGroupName(GroupName);
+        Group group = groupRepository.findByGroupName(GroupName);
+        if (group == null) {
+            return;
+        }
+        for (Entry entry : new HashSet<>(group.getEntries())) {
+            group.removeEntry(entry);
+        }
+        groupRepository.delete(group);
     }
 
     @Override

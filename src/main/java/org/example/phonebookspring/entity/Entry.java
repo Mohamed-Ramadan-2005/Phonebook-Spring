@@ -18,10 +18,21 @@ public class Entry{
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "entry_group",
-            joinColumns=@JoinColumn(name = "entry_id"),
-            inverseJoinColumns = @JoinColumn(name = "group_id")
+            joinColumns=@JoinColumn(name = "entry_id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "group_id", nullable = false),
+            uniqueConstraints = @UniqueConstraint(columnNames = {"entry_id", "group_id"})
     )
     private Set<Group> groups = new HashSet<>();
+
+    public void addGroup(Group group) {
+        groups.add(group);
+        group.getEntries().add(this);
+    }
+
+    public void removeGroup(Group group) {
+        groups.remove(group);
+        group.getEntries().remove(this);
+    }
 
     public Set<Group> getGroups() {
         return groups;
