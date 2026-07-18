@@ -2,6 +2,9 @@ package org.example.phonebookspring.entity;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "phone_entries")
 public class Entry{
@@ -12,6 +15,21 @@ public class Entry{
     @Column(unique = true,nullable = false)
     private String phoneNumber;
     private String city;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "entry_group",
+            joinColumns=@JoinColumn(name = "entry_id"),
+            inverseJoinColumns = @JoinColumn(name = "group_id")
+    )
+    private Set<Group> groups = new HashSet<>();
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
+    }
 
     public String getName() {
         return name;

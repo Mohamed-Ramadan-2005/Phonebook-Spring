@@ -2,18 +2,21 @@ package org.example.phonebookspring.service;
 
 
 import org.example.phonebookspring.entity.Entry;
+import org.example.phonebookspring.entity.Group;
 import org.example.phonebookspring.repository.PhoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Set;
+
 @Service
 public class PhoneServiceImpl implements PhoneService {
     @Autowired
     private PhoneRepository phoneRepository;
     @Override
-    public void addEntry(Entry entry) {
-        phoneRepository.save(entry);
+    public Entry addEntry(Entry entry) {
+        return phoneRepository.save(entry);
     }
     @Override
     public void deleteEntry(String phoneNumber) {

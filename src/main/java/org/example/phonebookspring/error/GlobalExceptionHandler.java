@@ -26,7 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         ErrorResponse errorResponse = new ErrorResponse("Data integrity violation",
-                "This phone number is already registered in the phonebook.");
+                "This record already exists. Phone numbers and Group names must be unique.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
