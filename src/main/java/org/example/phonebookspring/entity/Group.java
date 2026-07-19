@@ -29,7 +29,7 @@ public class Group {
     }
 
     public void setEntries(Set<Entry> entries) {
-        this.entries = entries;
+        this.entries = entries == null ? new HashSet<>() : entries;
     }
 
     public Integer getId() {
