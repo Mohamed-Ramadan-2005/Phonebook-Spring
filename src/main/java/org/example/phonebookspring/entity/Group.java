@@ -39,12 +39,10 @@ public class Group {
     public void setId(Integer id) {
         this.id = id;
     }
-    public void addEntry(Entry entry) {
-        entries.add(entry);
+    public void addToEntry(Entry entry) {
         entry.getGroups().add(this);
     }
-    public void removeEntry(Entry entry) {
-        entries.remove(entry);
+    public void removeFromEntry(Entry entry) {
         entry.getGroups().remove(this);
     }
 

@@ -39,7 +39,7 @@ public class PhoneController {
     @PostMapping
     public ResponseEntity<EntryDto> addEntry(@Valid @RequestBody EntryDto dto) {
         Entry entry = entryMapper.toEntity(dto);
-        Entry savedEntry = phoneService.addEntry(entry);
+        Entry savedEntry = phoneService.addEntry(entry,dto.getGroups());
         return ResponseEntity.status(HttpStatus.CREATED).body(entryMapper.toDto(savedEntry));
     }
 

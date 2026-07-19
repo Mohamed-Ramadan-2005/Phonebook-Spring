@@ -2,9 +2,11 @@ package org.example.phonebookspring.controller;
 
 import jakarta.validation.Valid;
 import org.example.phonebookspring.dto.GroupDto;
+import org.example.phonebookspring.entity.Entry;
 import org.example.phonebookspring.entity.Group;
 import org.example.phonebookspring.mapper.GroupMapper;
 import org.example.phonebookspring.service.GroupService;
+import org.example.phonebookspring.service.PhoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,8 @@ public class GroupController {
     GroupService groupService;
     @Autowired
     GroupMapper groupMapper;
+    @Autowired
+    PhoneService phoneService;
 
     @GetMapping("/{groupName}")
     public ResponseEntity<GroupDto> getGroup(@PathVariable String groupName) {
@@ -42,6 +46,15 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.CREATED).body(groupMapper.toDto(savedGroup));
     }
 
+    @PostMapping("/{groupName}/entries/{phoneNumber}")
+    public ResponseEntity<Void> addEntryToGroup(@PathVariable String groupName, @PathVariable String phoneNumber) {
+        Entry updatedEntry = phoneService.linkEntryToGroup(phoneNumber, groupName);
+        if (updatedEntry == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{groupName}")
     public ResponseEntity<Void> deleteGroup(@PathVariable String groupName) {
         Group group = groupService.get(groupName);
@@ -49,6 +62,16 @@ public class GroupController {
             return ResponseEntity.notFound().build();
         }
         groupService.deleteGroup(groupName);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{groupName}/entries/{phoneNumber}")
+    public ResponseEntity<Void> removeEntryFromGroup(@PathVariable String groupName, @PathVariable String phoneNumber) {
+        Entry updatedEntry = phoneService.unlinkEntryFromGroup(phoneNumber, groupName);
+
+        if (updatedEntry == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.noContent().build();
     }
 }

@@ -62,4 +62,13 @@ public class Entry{
     public void setId(Integer id) {
         this.id = id;
     }
+    public void addToGroup(Group group) {
+        groups.add(group);
+        group.getEntries().add(this);
+    }
+
+    public void removeFromGroup(Group group) {
+        groups.remove(group);
+        group.getEntries().remove(this);
+    }
 }

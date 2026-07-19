@@ -1,5 +1,6 @@
 package org.example.phonebookspring.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 
@@ -15,7 +16,7 @@ public class EntryDto {
     @NotBlank
     @Length(min = 3, max = 15)
     private String city;
-
+    @Valid
     private Set<GroupDto> groups;
 
     public Set<GroupDto> getGroups() {
